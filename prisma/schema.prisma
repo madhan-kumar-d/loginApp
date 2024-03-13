@@ -14,18 +14,45 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @unique @default(autoincrement()) @map("_id") @db.UnsignedInt
+  id          Int       @id @unique @default(autoincrement()) @db.UnsignedInt
   username    String
-  email       String   @unique
-  phone       String   @unique
+  email       String    @unique
+  phone       String    @unique
   password    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  active      Int      @default(0) @db.TinyInt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  active      Int       @default(0) @db.TinyInt
   lastLoginAt DateTime
   lastLogin   String
+  log         UserLog[]
+  profile     Profile?
 }
 
 model UserLog {
-  id Int @id @unique @default(autoincrement()) @db.UnsignedInt
+  id        Int           @id @unique @default(autoincrement()) @db.UnsignedInt
+  user      User          @relation(references: [id], fields: [userId])
+  userId    Int           @db.UnsignedInt
+  type      LoginLogTypes @default(Login)
+  requestAt DateTime      @default(now())
+}
+
+model Profile {
+  id           Int    @id @unique @default(autoincrement()) @db.UnsignedInt
+  firstName    String
+  lastName     String
+  bio          String
+  address      String
+  pincode      String
+  country      String
+  profileImage String
+  userId       Int    @unique @db.UnsignedInt
+  user         User   @relation(fields: [userId], references: [id])
+}
+
+enum LoginLogTypes {
+  Login
+  Logout
+  ForgotPassword
+  ResetPassword
+  ChangePassword
 }
