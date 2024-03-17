@@ -1,9 +1,9 @@
 import prisma from '../db'
-const User = prisma.user
+const userTable = prisma.user
 
-export const userModel: any = {
+export const userModel = {
   getUserByID: async (useremail: string) => {
-    return await User.findUnique({
+    const createdUser = await userTable.findUnique({
       where: {
         email: useremail,
       },
@@ -11,5 +11,6 @@ export const userModel: any = {
         id: true,
       },
     })
+    return createdUser
   },
 }
