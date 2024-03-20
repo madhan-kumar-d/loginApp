@@ -8,9 +8,13 @@ export const LoginController = {
     _: any,
     next: express.NextFunction
   ): Promise<TLoginResp | null | undefined> => {
-    const { email }: TLogin = req.body
-    const isUserExist = userModel.getUserByID(email)
-    console.log(isUserExist)
-    return null
+    try {
+      const { email }: TLogin = req.body
+      const isUserExist = await userModel.getUserByID(email)
+      console.log(isUserExist)
+      return null
+    } catch (err: any) {
+      console.log(err.message)
+    }
   },
 }
