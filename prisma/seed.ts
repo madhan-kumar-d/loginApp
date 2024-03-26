@@ -9,6 +9,8 @@ export const seed = async (): Promise<void> => {
     email: 'madhandvmk@gmail.com',
     phone: '9090909090',
     password: 'admin',
+    lastLoginAt: new Date(),
+    lastLogin: 'india'
   }
   await prisma.user.create({
     data: {

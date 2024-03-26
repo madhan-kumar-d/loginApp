@@ -10,7 +10,6 @@
     "build": "tsc",
     "seed": "ts-node prisma/seed.ts",
     "migrate": "prisma migrate"
-
   },
   "repository": {
     "type": "git",

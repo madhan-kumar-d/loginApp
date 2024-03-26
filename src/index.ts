@@ -7,6 +7,7 @@ dotenv.config()
 const port: string = process.env.PORT ?? '2024'
 const app: express.Express = express()
 
+app.use(express.json())
 app.use('/login', userRoute)
 // Return empty window for all Request
 // app.use(
