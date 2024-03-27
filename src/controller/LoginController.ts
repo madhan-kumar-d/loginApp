@@ -1,28 +1,47 @@
-import { type TLogin, type TLoginResp } from '../types'
+import { type TLogin } from '../types' // type TLoginResp
 import { userModel } from '../models/UserModel'
 import type express from 'express'
 import bcrypt from 'bcrypt'
+import { StatusCodes } from 'http-status-codes'
+// import { staticConstant } from '../utils/constants'
 
 export const LoginController = {
-  login: async (
-    req: express.Request,
-    res: express.Response
-  ): Promise<void> => {
+  login: async (req: express.Request, res: express.Response): Promise<void> => {
     try {
-      const { email, password }: TLogin = req.body
-      if (!email || !password) {
-        res.send(123).status(401)
+      let { email, password }: TLogin = req.body
+      email = email ?? ''
+      password = password ?? ''
+      if (email === '' || password === '') {
+        res
+          .status(StatusCodes.PARTIAL_CONTENT)
+          .json({ status: 'error', message: 'Email or Password is missing' })
       }
-      console.log(email)
       const isUserExist = await userModel.getUserIDByEmail(email)
-      const saltRound = 5
-      const salt = await bcrypt.genSalt(saltRound)
-      const hashpassword = await bcrypt.hash('test@123', salt)
-      console.log(hashpassword)
-      console.log(isUserExist)
-      res.send(123)
+      if (isUserExist === null) {
+        res
+          .status(StatusCodes.OK)
+          .json({ status: 'error', message: 'Invalid Credentials' })
+      }
+      // const saltRound = staticConstant.hashSaltRound
+      // const salt = await bcrypt.genSalt(parseInt(saltRound))
+      const userDetails = await userModel.getUserByID(isUserExist.id)
+      const compare = await bcrypt.compare(password, userDetails.password)
+      if (!compare) {
+        res
+          .status(StatusCodes.OK)
+          .json({ status: 'error', message: 'Invalid Credentials' })
+      }
+      res
+        .status(StatusCodes.OK)
+        .json({ status: 'success', message: 'Login Success' })
     } catch (err: unknown) {
       console.log(err)
     }
   },
 }
+
+// API for newsletter subscribion
+// Create a VL article(or map) in English
+// AAE Mega menu API Url -
+
+// wellness post date - reg end ddate post meta key

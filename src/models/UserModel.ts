@@ -13,7 +13,7 @@ export const userModel = {
     })
     return createdUser
   },
-  getUserByID: async (id: number) =>{
+  getUserByID: async (id: number) => {
     const userDetails = await userTable.findUnique({
       where: {
         id,
@@ -22,8 +22,8 @@ export const userModel = {
         id: true,
         email: true,
         password: true,
-      }
+      },
     })
     return userDetails
-  }
+  },
 }
