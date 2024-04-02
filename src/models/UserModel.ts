@@ -1,11 +1,12 @@
 import prisma from '../db'
+import { type TUserCreation2 } from '../types/userType'
 const userTable = prisma.user
 
 export const userModel = {
-  getUserIDByEmail: async (useremail: string) => {
+  getUserIDByEmail: async (email: string) => {
     const createdUser = await userTable.findUnique({
       where: {
-        email: useremail,
+        email,
       },
       select: {
         id: true,
@@ -25,5 +26,21 @@ export const userModel = {
       },
     })
     return userDetails
+  },
+  createUser: async ({ username, password, email, phone }: TUserCreation2) => {
+    console.log(username)
+    const createdUserData = await userTable.create({
+      data: {
+        email,
+        username,
+        password,
+        phone,
+      },
+      select: {
+        id: true,
+        email: true,
+      },
+    })
+    return createdUserData
   },
 }
