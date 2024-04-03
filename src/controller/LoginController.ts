@@ -1,5 +1,4 @@
-import { type TLogin } from '../types'
-// type TLoginResp
+import type { TLogin, TUserCreation2 } from '../types'
 import { userModel } from '../models/UserModel'
 import type express from 'express'
 import bcrypt from 'bcrypt'
@@ -59,7 +58,12 @@ export const register = async (
   res: express.Response
 ): Promise<void> => {
   try {
-    let { userName, email, password, phone } = req.body
+    const {
+      username: userName,
+      email,
+      password,
+      phone,
+    }: TUserCreation2 = req.body
     if (
       userName === null ||
       email === null ||
@@ -71,7 +75,7 @@ export const register = async (
         .json({ status: 'error', message: 'missing inputs' })
     }
     const isUserExist = await userModel.getUserIDByEmail(email)
-    if (isUserExist) {
+    if (isUserExist !== null) {
       res.status(StatusCodes.CONFLICT).json({
         status: 'error',
         message: 'Email Already used, Please Use Sign In',
@@ -114,15 +118,13 @@ export const verifyToken = async (
     if (authorization === null) {
       res.sendStatus(StatusCodes.UNAUTHORIZED)
     }
-    const accessToken = authorization
-      ?.replace('Bearer ', '')
-      .replace('bearer ', '')
-    if (
-      verify(accessToken!, staticConstant.JWTSECRET, {
-        complete: true,
-      })
-    )
-      res.status(StatusCodes.OK).json({ status: 'success', message: 'valid' })
+    const accessToken =
+      authorization?.replace('Bearer ', '').replace('bearer ', '') ?? ''
+    if (accessToken === '') res.sendStatus(StatusCodes.UNAUTHORIZED)
+    verify(accessToken, staticConstant.JWTSECRET, {
+      complete: true,
+    }) as JwtPayload
+    res.status(StatusCodes.OK).json({ status: 'success', message: 'valid' })
   } catch (error: unknown) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -132,21 +134,20 @@ export const verifyToken = async (
 export const createAccessToken = async (
   req: express.Request,
   res: express.Response
-) => {
+): Promise<void> => {
   try {
     const { authorization } = req.headers
     if (authorization === null) {
       res.sendStatus(StatusCodes.UNAUTHORIZED)
     }
-    const refreshToken = authorization
-      ?.replace('Bearer ', '')
-      .replace('bearer ', '')
-    if (refreshToken === null) res.sendStatus(StatusCodes.UNAUTHORIZED)
+    const refreshToken =
+      authorization?.replace('Bearer ', '').replace('bearer ', '') ?? ''
+    if (refreshToken === '') res.sendStatus(StatusCodes.UNAUTHORIZED)
     console.log(staticConstant.JWTSECRETREFRESH)
-    const jwtDecode = (await verify(
-      refreshToken!,
+    const jwtDecode = verify(
+      refreshToken,
       staticConstant.JWTSECRETREFRESH
-    )) as JwtPayload
+    ) as JwtPayload
     const { user } = jwtDecode
     const accessToken = sign({ user }, staticConstant.JWTSECRET, {
       expiresIn: '10m',
