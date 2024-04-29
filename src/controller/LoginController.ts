@@ -18,6 +18,7 @@ export const login = async (
       res
         .status(StatusCodes.PARTIAL_CONTENT)
         .json({ status: 'error', message: 'Email or Password is missing' })
+      return
     }
     const isUserExist = await userModel.getUserIDByEmail(email)
     if (isUserExist === null) {
@@ -32,6 +33,7 @@ export const login = async (
           res
             .status(StatusCodes.OK)
             .json({ status: 'error', message: 'Invalid Credentials' })
+          return
         }
         const accessToken = sign(
           { user: userDetails.id },
@@ -64,6 +66,7 @@ export const register = async (
       password,
       phone,
     }: TUserCreation2 = req.body
+    console.log(req.body)
     if (
       userName === null ||
       email === null ||
@@ -73,6 +76,7 @@ export const register = async (
       res
         .status(StatusCodes.OK)
         .json({ status: 'error', message: 'missing inputs' })
+      return
     }
     const isUserExist = await userModel.getUserIDByEmail(email)
     if (isUserExist !== null) {
@@ -80,6 +84,7 @@ export const register = async (
         status: 'error',
         message: 'Email Already used, Please Use Sign In',
       })
+      return
     }
     const saltRound = staticConstant.hashSaltRound
     const salt = await bcrypt.genSalt(parseInt(saltRound))
@@ -117,6 +122,7 @@ export const verifyToken = async (
   try {
     if (authorization === null) {
       res.sendStatus(StatusCodes.UNAUTHORIZED)
+      return
     }
     const accessToken =
       authorization?.replace('Bearer ', '').replace('bearer ', '') ?? ''
@@ -139,6 +145,7 @@ export const createAccessToken = async (
     const { authorization } = req.headers
     if (authorization === null) {
       res.sendStatus(StatusCodes.UNAUTHORIZED)
+      return
     }
     const refreshToken =
       authorization?.replace('Bearer ', '').replace('bearer ', '') ?? ''
