@@ -1,4 +1,4 @@
-DATABASE_URL="mysql://root:gquaaCPma8@db:3306/loginapp"
+DATABASE_URL="mysql://root:gquaaCPma8@host.docker.internal:3307/loginapp"
 JWT_SECRET="ABCD@123xyz"
 JWT_SECRET_REFRESH="ABCD@1234xyz"
 PORT = 8080

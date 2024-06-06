@@ -7,10 +7,11 @@
     "dev": "yarn tsc-watch ./src/index.ts",
     "nodemon": "yarn nodemon",
     "start": "yarn run build && node ./dist/src/index.js",
-    "start1": "tsc-watch --onSucsess \"yarn ./dist/scr/index.js \" ",
     "build": "tsc",
-    "seed": "ts-node prisma/seed.ts",
-    "migrate": "prisma migrate"
+    "migrate": "prisma migrate deploy"
+  },
+  "prisma": {
+    "seed": "yarn run seed"
   },
   "repository": {
     "type": "git",

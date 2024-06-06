@@ -1,21 +1,21 @@
 version: '3.8'
 
-networks:
-  loginnetwork:
-    driver: bridge
+# networks:
+#   loginnetwork:
+#     driver: bridge
 
 services:
   db:
     image: mysql:latest
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: gquaaCPma8
       MYSQL_DATABASE: loginapp
     volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - loginnetwork
+      - db_data_login:/var/lib/mysql
+    # networks:
+    #   - loginnetwork
 
   app:
     build: .
@@ -25,10 +25,8 @@ services:
       - db
     env_file:
       - .envprod
-    #environment:
-    #  DATABASE_URL: mysql://root:your_password@db:3306/your_database_name
-    networks:
-      - loginnetwork
+    # networks:
+    #   - loginnetwork
 
 volumes:
-  db_data:
+  db_data_login:
