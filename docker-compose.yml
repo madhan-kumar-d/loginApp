@@ -12,6 +12,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: gquaaCPma8
       MYSQL_DATABASE: loginapp
+      MYSQL_DATABASE: loginapp
     volumes:
       - db_data:/var/lib/mysql
     networks:
