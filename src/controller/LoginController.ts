@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import type { TLogin, TUserCreation2 } from '../types'
 import { userModel } from '../models/UserModel'
 import type express from 'express'

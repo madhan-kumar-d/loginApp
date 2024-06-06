@@ -5,8 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "dev": "yarn tsc-watch ./src/index.ts",
-    "start": "yarn nodemon",
-    "start2": "tsc-watch --onSucsess \"yarn ./dist/scr/index.js \" ",
+    "nodemon": "yarn nodemon",
+    "start": "yarn run build && node ./dist/src/index.js",
+    "start1": "tsc-watch --onSucsess \"yarn ./dist/scr/index.js \" ",
     "build": "tsc",
     "seed": "ts-node prisma/seed.ts",
     "migrate": "prisma migrate"
@@ -52,5 +53,6 @@
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.0.4",
     "typescript": "*"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
