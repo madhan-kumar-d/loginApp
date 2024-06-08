@@ -18,11 +18,11 @@ COPY . .
 EXPOSE 8080
 
 # defined env 
-ENV DATABASE_URL="mysql://root:gquaaCPma8@host.docker.internal:3307/loginapp"
-ENV JWT_SECRET="EBMBvv6BDYyOW8m"
-ENV JWT_SECRET_REFRESH="LDvRJM7eElwLv8k"
-ENV PORT="8080"
-ENV HASHSALTROUND="LDvRJM7eElwLv8k"
+# ENV DATABASE_URL="mysql://root:gquaaCPma8@db:3306/loginapp"
+# ENV JWT_SECRET="EBMBvv6BDYyOW8m"
+# ENV JWT_SECRET_REFRESH="LDvRJM7eElwLv8k"
+# ENV PORT="8080"
+# ENV HASHSALTROUND="5"
 
 # Command to run Prisma migrate, seed only if not seeded before, and then start the application
 CMD ["sh", "-c", "yarn run postinstall && yarn run migrate && yarn run build && if [ ! -f /seeded ]; then node ./build/prisma/seed.js && touch /seeded; fi && node ./build/src/index.js"]
