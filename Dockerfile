@@ -15,7 +15,7 @@ RUN yarn prisma generate
 COPY . .
 
 # Expose port 
-EXPOSE 8080
+EXPOSE 3080
 
 # defined env 
 # ENV DATABASE_URL="mysql://root:gquaaCPma8@db:3306/loginapp"
