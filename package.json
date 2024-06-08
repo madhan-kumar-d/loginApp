@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "yarn tsc-watch ./src/index.ts",
     "nodemon": "yarn nodemon",
-    "start": "yarn run build && node ./dist/src/index.js",
+    "start": "yarn run build && node ./build/src/index.js",
     "build": "tsc",
     "migrate": "prisma migrate deploy",
     "postinstall": "prisma generate"
