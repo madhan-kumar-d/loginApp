@@ -14,6 +14,7 @@ services:
       MYSQL_DATABASE: loginapp
     volumes:
       - db_data_login:/var/lib/mysql
+    restart: always
     # networks:
     #   - loginnetwork
 
@@ -25,6 +26,7 @@ services:
       - db
     env_file:
       - .envprod
+    restart: always
     # networks:
     #   - loginnetwork
 
