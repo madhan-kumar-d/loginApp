@@ -25,4 +25,4 @@ ENV PORT="8080"
 ENV HASHSALTROUND="LDvRJM7eElwLv8k"
 
 # Command to run Prisma migrate, seed only if not seeded before, and then start the application
-CMD ["sh", "-c", "yarn run build && yarn run postinstall && yarn run migrate && if [ ! -f /seeded ]; then node ./build/prisma/seed.js && touch /seeded; fi && node ./build/src/index.js"]
+CMD ["sh", "-c", "yarn run postinstall && yarn run migrate && yarn run build && if [ ! -f /seeded ]; then node ./build/prisma/seed.js && touch /seeded; fi && node ./build/src/index.js"]
