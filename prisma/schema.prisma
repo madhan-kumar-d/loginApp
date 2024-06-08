@@ -6,6 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  // to fix prisma client not initalize issues https://github.com/prisma/prisma/discussions/22213
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {

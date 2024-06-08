@@ -4,7 +4,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # copy package and package lock json 
-COPY package*.json ./
+COPY package*.json .
 
 # Install all dependencies
 RUN yarn install 
@@ -25,4 +25,4 @@ ENV PORT="8080"
 ENV HASHSALTROUND="LDvRJM7eElwLv8k"
 
 # Command to run Prisma migrate, seed only if not seeded before, and then start the application
-CMD ["sh", "-c", "yarn run migrate && if [ ! -f /app/seeds ]; then node ./dist/prisma/seed.js && touch /app/seeds; fi && yarn run build && node ./dist/src/index.js"]
+CMD ["sh", "-c", "yarn run postinstall && yarn run migrate && if [ ! -f /app/seeds ]; then node ./dist/prisma/seed.js && touch /app/seeds; fi && yarn run build && node ./dist/src/index.js"]
